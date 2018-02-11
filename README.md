@@ -27,7 +27,7 @@ then run the following command
 
 You can also run the tests (requires [pytest](https://pytest.org/) and [skimage](http://scikit-image.org/))
 
-    python ................
+    python setup.py test
 
 ## Tutorial
 
