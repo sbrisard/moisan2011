@@ -35,10 +35,12 @@ Let us start with loading an image that we would like to decompose into its
 periodic and smooth components. Assuming that you launch the Python REPL in the
 root directory of this project:
 
-    import numpy as np
+```python
+import numpy as np
 
-    from skimage.io import imread
-    u = imread('./images/hut-648x364.png')
+from skimage.io import imread
+u = imread('./images/hut-648x364.png')
+```
 
 which loads the following image:
 
@@ -47,7 +49,9 @@ which loads the following image:
 This image is *not* periodic, owing to discontinuities at the boundaries. This
 is best illustrating by swapping the quadrants of the image.
 
-    np.fft.fftshift(u)
+```python
+np.fft.fftshift(u)
+```
 
 which produces:
 
@@ -55,9 +59,11 @@ which produces:
 
 Computing the periodic-plus-smooth decomposition of ``u`` is as simple as:
 
-    from moisan2011 import per
+```python
+from moisan2011 import per
 
-    p, s = per(u)
+p, s = per(u)
+```
 
 The periodic (resp. smooth) components of ``u`` are ``p`` and ``s``. Here is
 what ``p`` looks like:
@@ -72,7 +78,9 @@ Sometimes, further analyses of the periodized image require the DFT of ``p``
 (rather than ``p`` itself). You can then spare the ``moisan2011.per`` function
 one last inverse DFT by passing the ``inverse_dft=False`` argument like so:
 
-    dft_p, dft_s = per(u, inverse_dft=False)
+```python
+dft_p, dft_s = per(u, inverse_dft=False)
+```
 
 (the default value of ``inverse_dft`` is ``True``).
 
@@ -82,16 +90,22 @@ Several versions of the “per” operator are implemented in the ``moisan2011``
 module, namely: ``_per``, ``per``, ``per2``, ``rper`` and ``rper2``. All share
 the same interface
 
-    per(u, inverse_dft)
+```python
+per(u, inverse_dft)
+```
 
 All return the pair ``(p, s)`` if ``inverse_dft == True``.
 If ``inverse_dft == False``, then ``_per``, ``per`` and ``per2`` return the pair
 
-    (numpy.fft.fft2(p), numpy.fft.fft2(s))
+```python
+(numpy.fft.fft2(p), numpy.fft.fft2(s))
+```
 
 while ``rper`` and ``rper2`` return the pair
 
-    (numpy.fft.rfft2(p), numpy.fft.rfft2(s))
+```python
+(numpy.fft.rfft2(p), numpy.fft.rfft2(s))
+```
 
 Now, the differences
 
