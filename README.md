@@ -47,7 +47,7 @@ which loads the following image:
 ![The initial image](./images/hut-648x364.png)
 
 This image is *not* periodic, owing to discontinuities at the boundaries. This
-is best illustrating by swapping the quadrants of the image.
+is best illustrated by swapping the quadrants of the image.
 
 ```python
 np.fft.fftshift(u)
