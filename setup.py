@@ -28,10 +28,10 @@ setup(
                  'Intended Audience :: Science/Research',
                  'License :: OSI Approved :: BSD License',
                  'Operating System :: OS Independent',
-                 'Topic :: Software Development :: Build Tools',
                  'Programming Language :: Python :: 2.7',
                  'Programming Language :: Python :: 3',
                  'Topic :: Scientific/Engineering'],
-    test_suite='setup.my_test_suite',
     install_requires=['numpy'],
+    setup_requires=['pytest-runner'],
+    tests_requires=['pytest'],
 )
