@@ -18,7 +18,7 @@ setup(
     version=version,
     description=description,
     long_description=long_description,
-    url='',
+    url='https://github.com/sbrisard/moisan2011',
     author=author,
     author_email='',
     py_modules=['moisan2011'],
