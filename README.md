@@ -13,7 +13,8 @@ The ``moisan2011`` module is released under a BSD 3-clause license (see
 
 ## Requirements
 
-You need a fairly recent version of [numpy](http://www.numpy.org/) and [scipy](https://www.scipy.org/scipylib/index.html).
+You need a fairly recent version of [numpy](http://www.numpy.org/) and
+[scipy](https://www.scipy.org/scipylib/index.html).
 
 ## Installation
 
@@ -25,7 +26,8 @@ then run the following command
 
     python setup.py install
 
-You can also run the tests (requires [pytest](https://pytest.org/) and [skimage](http://scikit-image.org/))
+You can also run the tests (requires [pytest](https://pytest.org/) and
+[pillow](https://pillow.readthedocs.io/)
 
     python setup.py test
 
