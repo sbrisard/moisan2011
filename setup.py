@@ -1,8 +1,9 @@
+import io
 import re
 
 from setuptools import setup
 
-with open('moisan2011.py', 'r', encoding='utf-8') as f:
+with io.open('moisan2011.py', 'r', encoding='utf-8') as f:
     lines = f.read()
     version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]',
                         lines, re.MULTILINE).group(1)
