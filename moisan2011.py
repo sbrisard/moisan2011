@@ -67,6 +67,7 @@ This is illustrated in the short example below:
 """
 import numpy as np
 import scipy.ndimage
+import scipy.sparse.linalg
 
 __author__ = 'Sebastien Brisard'
 __version__ = '1.0'
@@ -393,7 +394,7 @@ class ImageLinearOperator(scipy.sparse.linalg.LinearOperator):
         self.img_shape = img_shape
         n = np.product(self.img_shape)
         shape = (n, n)
-        super().__init__(dtype, shape)
+        super(ImageLinearOperator, self).__init__(dtype, shape)
 
     def _matvec(self, x):
         y = np.zeros_like(x)
@@ -436,7 +437,7 @@ class OperatorQ1(ImageLinearOperator):
     passed to the initializer), assuming C-ordering.
     """
     def __init__(self, img_shape, dtype=np.float64):
-        super().__init__(img_shape, dtype)
+        super(OperatorQ1, self).__init__(img_shape, dtype)
 
     def _apply(self, x, y=None):
         if y is None:
@@ -477,7 +478,7 @@ class OperatorQ(ImageLinearOperator):
     to the initializer), assuming C-ordering.
     """
     def __init__(self, img_shape, dtype=np.float64):
-        super().__init__(img_shape, dtype)
+        super(OperatorQ, self).__init__(img_shape, dtype)
         self.kernel = np.array([[0, -2, 0],
                                 [-2, 8, -2],
                                 [0, -2, 0]], dtype=dtype)
