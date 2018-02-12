@@ -13,7 +13,8 @@ The ``moisan2011`` module is released under a BSD 3-clause license (see
 
 ## Requirements
 
-You need a fairly recent version of [numpy](http://www.numpy.org/) and
+This module works with both Python 3 and Python 2.7. You need a fairly recent
+version of [numpy](http://www.numpy.org/) and
 [scipy](https://www.scipy.org/scipylib/index.html).
 
 ## Installation
@@ -27,7 +28,7 @@ then run the following command
     python setup.py install
 
 You can also run the tests (requires [pytest](https://pytest.org/) and
-[pillow](https://pillow.readthedocs.io/)
+[pillow](https://pillow.readthedocs.io/))
 
     python setup.py test
 
