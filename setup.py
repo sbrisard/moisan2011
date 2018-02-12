@@ -32,7 +32,7 @@ setup(
                  'Programming Language :: Python :: 2.7',
                  'Programming Language :: Python :: 3',
                  'Topic :: Scientific/Engineering'],
-    install_requires=['numpy'],
+    install_requires=['numpy', 'scipy'],
     setup_requires=['pytest-runner'],
-    tests_requires=['pytest'],
+    tests_require=['pytest', 'pillow'],
 )
