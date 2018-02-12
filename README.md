@@ -6,7 +6,9 @@ Mathematical Imaging and Vision 39(2), 161–179) see
 [doi:10.1007/s10851-010-0227-1](https://doi.org/10.1007/s10851-010-0227-1)
 (published version), or
 [hal-00388020](https://hal.archives-ouvertes.fr/hal-00388020) (archived
-version).
+version). See also the series of posts “On the periodic-plus-smooth
+decomposition of an image” on
+[my blog](http://sbrisard.github.io/posts/20180212-On_the_periodic-plus-smooth_decomposition_of_an_image-01.html).
 
 The ``moisan2011`` module is released under a BSD 3-clause license (see
 ``LICENSE``).
