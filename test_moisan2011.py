@@ -21,7 +21,7 @@ def test_OperatorQ1(shape):
     p1 = np.random.randint(-128, 128, size=(q.shape[0],), dtype=np.int64)
     p2 = p1.reshape(shape)
     expected = moisan2011.energy(p2, 0)
-    actual = np.dot(q@p1, p1)
+    actual = np.dot(q.matvec(p1), p1)
     assert_array_equal(actual, expected)
 
 
@@ -35,7 +35,7 @@ def test_OperatorQ(shape):
     u1[0] -= np.sum(u1) % u1.shape[0]
     u2 = u1.reshape(shape)
     expected = moisan2011.energy(u2, 0)+moisan2011.energy(0, u2)
-    actual = np.dot(q@u1, u1)
+    actual = np.dot(q.matvec(u1), u1)
     assert_array_equal(actual, expected)
 
 
