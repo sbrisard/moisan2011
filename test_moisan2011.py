@@ -6,7 +6,7 @@ import pytest
 import moisan2011
 
 from numpy.testing import assert_allclose, assert_array_equal
-from skimage.io import imread
+from PIL import Image
 
 
 def img_shapes():
@@ -52,7 +52,8 @@ def operators():
 
 
 def real_images():
-    u = imread('./images/hut-648x364.png').astype(np.float64)
+    u = np.asarray(Image.open('./images/hut-648x364.png'),
+                   dtype=np.float64)
     m0, n0 = u.shape
     return [np.ascontiguousarray(u[:m, :n])
             for m, n in itertools.product([m0-1, m0], [n0-1, n0])]
