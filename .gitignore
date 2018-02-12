@@ -1,6 +1,7 @@
 .eggs/
-__pycache__
-.cache
+.pytest_cache/
+build/
+dist/
+__pycache__/
 *.egg-info
-*.o
-*.so
+*.pyc
