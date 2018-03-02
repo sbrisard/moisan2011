@@ -1,4 +1,5 @@
 import itertools
+import os
 
 import numpy as np
 import pytest
@@ -52,8 +53,8 @@ def operators():
 
 
 def real_images():
-    u = np.asarray(Image.open('./images/hut-648x364.png'),
-                   dtype=np.float64)
+    path = os.path.join(os.path.dirname(__file__), 'images', 'hut-648x364.png')
+    u = np.asarray(Image.open(path), dtype=np.float64)
     m0, n0 = u.shape
     return [np.ascontiguousarray(u[:m, :n])
             for m, n in itertools.product([m0-1, m0], [n0-1, n0])]
