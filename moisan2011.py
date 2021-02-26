@@ -66,7 +66,7 @@ This is illustrated in the short example below:
 13.503994406832206
 """
 import numpy as np
-import scipy.ndimage
+import scipy.ndimage as ndi
 import scipy.sparse.linalg
 
 __author__ = 'Sebastien Brisard'
@@ -122,7 +122,28 @@ def _per(u, inverse_dft=True):
 
 
 def per(u, inverse_dft=True, axes=(-2, -1)):
-    """Compute the periodic component of the 2D image u.
+    """Compute the periodic component of the images u.
+
+    Parameters
+    ----------
+    u : array_like
+        Input image.
+    inverse_dft : boolean, optional
+        Whether to calculate the final inverse DFT or to forego
+        calcuation and to return the Fourier space representation
+        of the decomposition
+    axes : length-2 sequence of ints, optional
+        The axes along which to perform the tranformation.
+
+    Returns
+    -------
+    p : ndarray
+        Periodic component.
+    s : ndarray
+        Smooth component.
+
+    Notes
+    -----
 
     This function returns the periodic-plus-smooth decomposition of
     the array-like u along axes.
@@ -137,13 +158,19 @@ def per(u, inverse_dft=True, axes=(-2, -1)):
     is returned.
 
     This function implements Algorithm 1.
+
+    References
+    ----------
+    .. [1] Moisan, Lionel. "Periodic plus smooth image
+           decomposition." Journal of Mathematical Imaging and
+           Vision 39.2 (2011): 161-179.
+           10.1007/s10851-010-0227-1. hal-00388020v2
     """
     u = np.asarray(u, dtype=np.float64)
 
-    if axes is (-2, -1):
+    if axes == (-2, -1):
         ut = u
     else:
-        print("per:", axes)
         ut = np.moveaxis(u, axes, (-2, -1))
 
     m, n = ut.shape[-2:]
@@ -180,7 +207,28 @@ def per(u, inverse_dft=True, axes=(-2, -1)):
 
 
 def per2(u, inverse_dft=True, axes=(-2, -1)):
-    """Compute the periodic component of the 2D image u.
+    """Compute the periodic component of the image u.
+
+    Parameters
+    ----------
+    u : array_like
+        Input image.
+    inverse_dft : boolean, optional
+        Whether to calculate the final inverse DFT or to forego
+        calcuation and to return the Fourier space representation
+        of the decomposition
+    axes : length-2 sequence of ints, optional
+        The axes along which to perform the tranformation.
+
+    Returns
+    -------
+    p : ndarray
+        Periodic component.
+    s : ndarray
+        Smooth component.
+
+    Notes
+    -----
 
     This function returns the periodic-plus-smooth decomposition of
     the array-like u along axes.
@@ -195,11 +243,17 @@ def per2(u, inverse_dft=True, axes=(-2, -1)):
     is returned.
 
     This function implements Algorithm 2.
+
+    References
+    ----------
+    .. [1] Moisan, Lionel. "Periodic plus smooth image
+           decomposition." Journal of Mathematical Imaging and
+           Vision 39.2 (2011): 161-179.
+           10.1007/s10851-010-0227-1. hal-00388020v2
     """
-    if axes is (-2, -1):
+    if axes == (-2, -1):
         ut = u
     else:
-        print("per2:", axes)
         ut = np.moveaxis(u, axes, (-2, -1))
 
     m, n = ut.shape[-2:]
@@ -208,7 +262,7 @@ def per2(u, inverse_dft=True, axes=(-2, -1)):
                        [1.0, -4.0, 1.0],
                        [0.0, 1.0, 0.0]],
                       dtype=np.float64, ndmin=ut.ndim)
-    kp = scipy.ndimage.convolve(ut, kernel, mode='wrap')
+    kp = ndi.convolve(ut, kernel, mode='wrap')
 
     du = ut[..., -1, :] - ut[..., 0, :]
     kp[..., 0, :] -= du
@@ -225,7 +279,7 @@ def per2(u, inverse_dft=True, axes=(-2, -1)):
     k_dft = 2.0 * (cos_m[:, None]+cos_n[None, :]-2.0)
     k_dft[..., 0, 0] = 1.0
     p_dft = kp_dft / k_dft
-    p_dft[..., 0, 0] = ut.sum(axis=(-1,-2))
+    p_dft[..., 0, 0] = ut.sum(axis=(-1, -2))
 
     if inverse_dft:
         p = np.fft.ifft2(p_dft)
@@ -237,7 +291,28 @@ def per2(u, inverse_dft=True, axes=(-2, -1)):
 
 
 def rper(u, inverse_dft=True, axes=(-2, -1)):
-    """Compute the periodic component of the 2D, real image u.
+    """Compute the periodic component of the real image u.
+
+    Parameters
+    ----------
+    u : array_like
+        Input image, assumed to be real-valued
+    inverse_dft : boolean, optional
+        Whether to calculate the final inverse DFT or to forego
+        calcuation and to return the Fourier space representation
+        of the decomposition
+    axes : length-2 sequence of ints, optional
+        The axes along which to perform the tranformation.
+
+    Returns
+    -------
+    p : ndarray
+        Periodic component.
+    s : ndarray
+        Smooth component.
+
+    Notes
+    -----
 
     This function returns the periodic-plus-smooth decomposition of
     the 2D array-like u. The image must be real.
@@ -247,17 +322,23 @@ def rper(u, inverse_dft=True, axes=(-2, -1)):
 
     If inverse_dft is False, then the pair
 
-        (numpy.fft.rfft2(p), numpy.fft.rfft2(s))
+        (numpy.fft.rfft2(p, axes=axes), numpy.fft.rfft2(s, axes=axes))
 
     is returned.
 
     This function implements Algorithm 1.
+
+    References
+    ----------
+    .. [1] Moisan, Lionel. "Periodic plus smooth image
+           decomposition." Journal of Mathematical Imaging and
+           Vision 39.2 (2011): 161-179.
+           10.1007/s10851-010-0227-1. hal-00388020v2
     """
     u = np.asarray(u, dtype=np.float64)
-    if axes is (-2, -1):
+    if axes == (-2, -1):
         ut = u
     else:
-        print("rper:", axes)
         ut = np.moveaxis(u, axes, (-2, -1))
 
     m, n = ut.shape[-2:]
@@ -285,7 +366,7 @@ def rper(u, inverse_dft=True, axes=(-2, -1)):
     s_dft[..., 0, 0] = 0.0
 
     if inverse_dft:
-        s = np.fft.irfft2(s_dft, (m,n))
+        s = np.fft.irfft2(s_dft, (m, n))
         s = np.moveaxis(s, (-2, -1), axes)
         return u - s, s
     else:
@@ -297,6 +378,27 @@ def rper(u, inverse_dft=True, axes=(-2, -1)):
 def rper2(u, inverse_dft=True, axes=(-2, -1)):
     """Compute the periodic component of the real images u.
 
+    Parameters
+    ----------
+    u : array_like
+        Input image, assumed to be real-valued
+    inverse_dft : boolean, optional
+        Whether to calculate the final inverse DFT or to forego
+        calcuation and to return the Fourier space representation
+        of the decomposition
+    axes : length-2 sequence of ints, optional
+        The axes along which to perform the tranformation.
+
+    Returns
+    -------
+    p : ndarray
+        Periodic component.
+    s : ndarray
+        Smooth component.
+
+    Notes
+    -----
+
     This function returns the periodic-plus-smooth decomposition of
     the array-like u along axes. The images must be real.
 
@@ -305,16 +407,22 @@ def rper2(u, inverse_dft=True, axes=(-2, -1)):
 
     If inverse_dft is False, then the pair
 
-        (numpy.fft.rfft2(p), numpy.fft.rfft2(s))
+        (numpy.fft.rfft2(p axes=axes), numpy.fft.rfft2(s, axes=axes))
 
     is returned.
 
     This function implements Algorithm 2.
+
+    References
+    ----------
+    .. [1] Moisan, Lionel. "Periodic plus smooth image
+           decomposition." Journal of Mathematical Imaging and
+           Vision 39.2 (2011): 161-179.
+           10.1007/s10851-010-0227-1. hal-00388020v2
     """
-    if axes is (-2, -1):
+    if axes == (-2, -1):
         ut = u
     else:
-        print("rper2:", axes)
         ut = np.moveaxis(u, axes, (-2, -1))
 
     m, n = ut.shape[-2:]
@@ -323,7 +431,7 @@ def rper2(u, inverse_dft=True, axes=(-2, -1)):
                        [1.0, -4.0, 1.0],
                        [0.0, 1.0, 0.0]],
                       dtype=np.float64, ndmin=ut.ndim)
-    kp = scipy.ndimage.convolve(ut, kernel, mode='wrap')
+    kp = ndi.convolve(ut, kernel, mode='wrap')
 
     du = ut[..., -1, :] - ut[..., 0, :]
     kp[..., 0, :] -= du
@@ -343,12 +451,11 @@ def rper2(u, inverse_dft=True, axes=(-2, -1)):
     p_dft[..., 0, 0] = ut.sum(axis=(-2, -1))
 
     if inverse_dft:
-        p = np.fft.irfft2(p_dft, (m,n))
+        p = np.fft.irfft2(p_dft, (m, n))
         p = np.moveaxis(p, (-2, -1), axes)
         return p, u - p
     else:
         p_dft = np.moveaxis(p_dft, (-2, -1), axes)
-        print("rper2shape", p_dft.shape, u.shape, np.fft.rfft2(u, axes=axes).shape)
         return p_dft, np.fft.rfft2(u, axes=axes) - p_dft
 
 
@@ -520,7 +627,7 @@ class OperatorQ(ImageLinearOperator):
         if y is None:
             y = np.zeros_like(x)
 
-        scipy.ndimage.convolve(x, self.kernel, output=y, mode='wrap')
+        ndi.convolve(x, self.kernel, output=y, mode='wrap')
         return y+x.mean()/self.shape[0]
 
     def _adjoint(self):
