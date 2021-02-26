@@ -168,7 +168,7 @@ def per(u, inverse_dft=True, axes=(-2, -1)):
     """
     u = np.asarray(u, dtype=np.float64)
 
-    if axes is (-2, -1):
+    if axes == (-2, -1):
         ut = u
     else:
         ut = np.moveaxis(u, axes, (-2, -1))
@@ -251,7 +251,7 @@ def per2(u, inverse_dft=True, axes=(-2, -1)):
            Vision 39.2 (2011): 161-179.
            10.1007/s10851-010-0227-1. hal-00388020v2
     """
-    if axes is (-2, -1):
+    if axes == (-2, -1):
         ut = u
     else:
         ut = np.moveaxis(u, axes, (-2, -1))
@@ -336,7 +336,7 @@ def rper(u, inverse_dft=True, axes=(-2, -1)):
            10.1007/s10851-010-0227-1. hal-00388020v2
     """
     u = np.asarray(u, dtype=np.float64)
-    if axes is (-2, -1):
+    if axes == (-2, -1):
         ut = u
     else:
         ut = np.moveaxis(u, axes, (-2, -1))
@@ -420,7 +420,7 @@ def rper2(u, inverse_dft=True, axes=(-2, -1)):
            Vision 39.2 (2011): 161-179.
            10.1007/s10851-010-0227-1. hal-00388020v2
     """
-    if axes is (-2, -1):
+    if axes == (-2, -1):
         ut = u
     else:
         ut = np.moveaxis(u, axes, (-2, -1))
