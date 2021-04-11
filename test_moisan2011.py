@@ -60,6 +60,11 @@ def real_images():
             for m, n in itertools.product([m0-1, m0], [n0-1, n0])]
 
 
+def real_image_stacks():
+    im_list = real_images()
+    return [np.array([im]*3) for im in im_list]
+
+
 def operators_and_real_images():
     return itertools.product(complex_operators(), real_images())
 
@@ -132,3 +137,24 @@ def test_consistency(per, u, inverse_dft):
     p_act, s_act = per(u, inverse_dft=inverse_dft)
     assert_allclose(p_act, p_exp, eps, eps)
     assert_allclose(s_act, s_exp, eps, eps)
+
+
+@pytest.mark.parametrize('per, u, axes, inverse_dft',
+                         itertools.product((op for op in operators()
+                                            if op != moisan2011._per),
+                                           real_image_stacks(),
+                                           [(-1, -2), (0, 1)],
+                                           [True, False]))
+def test_nd(per, u, axes, inverse_dft):
+    eps = {moisan2011.per: 1E-11,
+           moisan2011.per2: 1E-9,
+           moisan2011.rper: 1E-10,
+           moisan2011.rper2: 1E-9}[per]
+    ut = np.moveaxis(u, (-2, -1), axes)
+    ps, ss = per(ut, inverse_dft, axes)
+    ps = np.moveaxis(ps, axes, (-2, -1))
+    ss = np.moveaxis(ss, axes, (-2, -1))
+    for p, s, u in zip(ps, ss, u):
+        p_exp, s_exp = per(u, inverse_dft)
+        assert_allclose(p_exp, p, eps, eps)
+        assert_allclose(s_exp, s, eps, eps)
